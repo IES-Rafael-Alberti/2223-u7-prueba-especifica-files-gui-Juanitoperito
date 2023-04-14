@@ -9,17 +9,13 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.AwtWindow
-import androidx.compose.ui.window.MenuBar
-import androidx.compose.ui.window.Window
-import androidx.compose.ui.window.application
 import java.awt.FileDialog
 import java.awt.Frame
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-
+import androidx.compose.ui.window.*
 
 internal fun AppGui(function: () -> Unit) = application {
     val titleWindowIni = "Procesa archivo: "
@@ -50,10 +46,9 @@ internal fun AppGui(function: () -> Unit) = application {
             onCloseFileChooser = { directory: String?, fileName: String? -> //Cuando se elige en archivo.
                 // TODO: añade aquí el código necesario cuando se selecciona un archivo.
                 },
-            onClickSelectFile = { } // TODO: Añade aquí el código necesario paa que se abra el FileChooser
-            textProcesed
-        )
-    }
+            onClickSelectFile = { // TODO: Añade aquí el código necesario paa que se abra el FileChooser}
+        textProcesed
+    })
 
 }
 
@@ -67,7 +62,7 @@ internal fun AppGui(function: () -> Unit) = application {
  * @param textProcesed El texto que contiene los resultados, se vuelcan en el textField que contiene los resultados
  */
 @Composable
-internal fun FrameWindow(
+fun FrameWindow(
     isFileChooserOpen: Boolean = false,
     filePath: String = "",
     onCloseFileChooser: (directory: String?, file: String?) -> Unit,
@@ -76,7 +71,7 @@ internal fun FrameWindow(
 ) {
     MaterialTheme {
         if (isFileChooserOpen)
-            FileChooser(onCloseFileChooser = onCloseFileChooser)
+              FileChooser(onCloseFileChooser = onCloseFileChooser)
 
 
         Box(
@@ -118,6 +113,7 @@ internal fun FrameWindow(
                         ),
                         readOnly = false,
                     )
+
                     Space()
                     TextField( // Campo de texto que contiene el texto en el que se vuelcan los resultados
                         value = textProcesed,
@@ -145,7 +141,7 @@ internal fun FrameWindow(
  * @param onCloseFileChooser Evento que se lanza cuando se cierra FileChooer. Devuelve directory en el que se encuentra el fichero y file el nombre del fichero.
  */
 @Composable
-internal fun FileChooser(
+fun FileChooser(
     parent: Frame? = null,
     onCloseFileChooser: (directory: String?, file: String?) -> Unit
 ) = AwtWindow(
@@ -164,7 +160,13 @@ internal fun FileChooser(
 
 
 @Composable
-internal fun Space() {
+fun Space() {
     Spacer(modifier = Modifier.size(16.dp))
 }
+}
+
+private fun FrameWindowScope.FrameWindow(fileChooserOpen: Boolean, filePath: String, onCloseFileChooser: (String?, String?) -> Unit, onClickSelectFile: () -> String) {
+
+}
+
 
