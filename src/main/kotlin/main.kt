@@ -1,4 +1,5 @@
 import gui.AppGui
 
-fun main() = AppGui()
+fun main() = AppGui(){
 
+}

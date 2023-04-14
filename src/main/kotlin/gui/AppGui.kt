@@ -19,19 +19,17 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import dominio.FileName
-import dominio.Processor
-import io.Reader
 
-internal fun AppGui() = application {
+
+internal fun AppGui(function: () -> Unit) = application {
     val titleWindowIni = "Procesa archivo: "
     var isFileChooserOpen by remember { mutableStateOf(false) } //Indica que se quiere abrir el FileChooser
-    var titleWindow by remember { mutableStateOf(titleWindowIni) } //Titulo de la ventana
+    var titleWindow by remember { mutableStateOf(titleWindowIni) } //Título de la ventana
     var filePath by remember { mutableStateOf("") } //Path al fichero que se está procesando
     var isActiveProcess by remember { mutableStateOf(false) } //Activar o desactivar el menuItem  procesar
     var textProcesed by remember { mutableStateOf("") } //El texto a poner en el campo de procesado.
 
-    //Ventana principal.
+    //Ventana principal
     Window(
         title = titleWindow,
         onCloseRequest = ::exitApplication
@@ -40,7 +38,8 @@ internal fun AppGui() = application {
         MenuBar {
             Menu("Archivo") {
                 Item("Abrir", onClick = { isFileChooserOpen = true })
-                Item("Procesar", // TODO: añade aquí el código necesario para procesar y tener el menuItem activo o desactivado según se requiera)
+                Item("Procesar", onClick = {isActiveProcess = true })
+                /* TODO: añade aquí el código necesario para procesar y tener el menuItem activo o desactivado según se requiera */
                 Item("Salir", onClick = ::exitApplication)
             }
         }
@@ -51,7 +50,7 @@ internal fun AppGui() = application {
             onCloseFileChooser = { directory: String?, fileName: String? -> //Cuando se elige en archivo.
                 // TODO: añade aquí el código necesario cuando se selecciona un archivo.
                 },
-            onClickSelectFile = { // TODO: Añade aquí el código necesario paa que se abra el FileChooser },
+            onClickSelectFile = { } // TODO: Añade aquí el código necesario paa que se abra el FileChooser
             textProcesed
         )
     }
@@ -65,7 +64,7 @@ internal fun AppGui() = application {
  * @param filePath El path al archivo
  * @param onCloseFileChooser Evento que se lanza cuando se cierra el FileChooser. Devuelve el path y nombre del archivo seleccionado. Null si no se cancelo.
  * @param onClickSelectFile Evento al pulsar sobre el botón Abrir
- * @param textProcesed El texto que con tiene los resultados, se vuelcan en el textField que contiene los resultados
+ * @param textProcesed El texto que contiene los resultados, se vuelcan en el textField que contiene los resultados
  */
 @Composable
 internal fun FrameWindow(
